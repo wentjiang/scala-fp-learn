@@ -1,0 +1,24 @@
+# sbt specific
+dist/*
+target/
+.bsp/
+
+## IntelliJ
+*.iml
+.idea
+
+## Metals
+.metals/
+project/metals.sbt
+project/project/
+.bloop/
+project/.bloop/
+
+## Mac stuff
+.DS_Store
+
+# VS Code
+.vscode/
+
+
+/project/
