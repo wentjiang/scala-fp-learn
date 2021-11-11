@@ -31,7 +31,7 @@ object Person{
   }
 
   def mkPerson2(name:String,age:Int):Either[List[String],Person] = {
-    mkName1(name).map2_2[String,Age,Person](mkAge1(age))(Person(_,_))
+    mkName1(name).map2_2_1[List[String],Age,Person](mkAge1(age))(Person(_,_))
   }
 
 }

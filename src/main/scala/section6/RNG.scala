@@ -50,12 +50,36 @@ object RNG {
     ((d, i), r2)
   }
 
-  //6.4
+  //6.3
   def double3(rng: RNG): ((Double, Double, Double), RNG) = {
     val (d1, r1) = double(rng)
     val (d2, r2) = double(r1)
     val (d3, r3) = double(r2)
     ((d1, d2, d3), r3)
+  }
+
+  //6.4
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    if (count == 0) {
+      (List(), rng)
+    } else {
+      val (x, r1) = rng.nextInt
+      val (xs, r2) = ints(count - 1)(r1)
+      (x :: xs, r2)
+    }
+  }
+
+  //6.4 tail-recursive solution
+  def ints2(count: Int)(rng: RNG): (List[Int], RNG) = {
+    def go(count: Int, r: RNG, xs: List[Int]): (List[Int], RNG) = {
+      if (count == 0) {
+        (xs, r)
+      } else {
+        val (x, r2) = r.nextInt
+        go(count - 1, r2, x :: xs)
+      }
+    }
+    go(count, rng, List())
   }
 
   def map[A, B](s: Rand[A])(f: A => B): Rand[B] = {
@@ -132,7 +156,6 @@ object RNG {
 
   def _map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
     flatMap(ra)(a => map(rb)(b => f(a, b)))
-
 
 
 }

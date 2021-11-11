@@ -163,13 +163,13 @@ object List {
    */
   def foldRightViaFoldLeft[A, B](as: List[A], z: B)(f: (A, B) => B): B = {
     val reverseList = reverse(as)
-    foldLeft(reverseList,z)((b,a) => f(a,b))
+    foldLeft(reverseList, z)((b, a) => f(a, b))
   }
 
   /**
    * 3_14
    */
-  def append[A](as: List[A],z:A): List[A] = {
-
+  def append[A](l: List[A], r: List[A]): List[A] = {
+    foldRight(l, r)((a, b) => Cons(a, b))
   }
 }

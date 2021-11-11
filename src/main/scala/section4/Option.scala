@@ -1,8 +1,6 @@
 package com.wentjiang
 package section4
 
-import scala.collection.IterableOnce.iterableOnceExtensionMethods
-
 sealed trait Option[+A] {
   def map[B](f: A => B): Option[B] = this match {
     case None => None
@@ -57,7 +55,6 @@ object Option {
   * 4.4
    */
   def sequence[A](a: List[Option[A]]): Option[List[A]] = {
-    val c = Some(a.flatten)
     a match {
       case Nil => Some(Nil)
       case h :: t => h.flatMap((hh: A) => sequence(t).map(hh :: _))

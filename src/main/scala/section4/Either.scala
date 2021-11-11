@@ -19,10 +19,10 @@ sealed trait Either[+E, +A] {
     }
   }
 
-  def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] = {
+  def orElse[EE >: E, B >: A](b: Either[EE, B]): Either[EE, B] = {
     this match {
-      case Right(None) => b
-      case _ => _
+      case Left(error) => b
+      case Right(a) => Right(a)
     }
   }
 
@@ -39,11 +39,11 @@ sealed trait Either[+E, +A] {
       case (Right(a), Right(b)) => Right(f(a, b))
       case (Left(e1: E), Left(e2: E)) => Left(List(e1,e2))
       case (Left(e), _) => Left(List(e))
-      case (_, Left(e)) => Left(List(e))
+      case (_, Left(e)) =>  Left(List(e).flatten)
     }
   }
 
-  def map2_2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = {
+  def map2_2_1[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = {
     for {
       a <- this
       b1 <- b
